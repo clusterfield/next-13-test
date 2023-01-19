@@ -8,18 +8,7 @@ import { useEffect, useState } from 'react'
 
 const inter = Inter({ subsets: ['latin'] })
 
-export default function Home() {
-
-  const [articles, setArticles] = useState([])
-
-  useEffect(()=>{
-    fetch('https://newsapi.org/v2/everything?q=tesla&from=2022-12-19&sortBy=publishedAt&apiKey=92b29c7264864016892c34a9fbebb01b')
-      .then(res => res.json())
-      .then(response => {
-        const {articles} = response
-        setArticles(articles)
-      })
-  },[])
+export default function Home({articles}) {
 
   return (
 
@@ -33,7 +22,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       
-      {articles.length === 0 && <p>Loading...</p>}
+      {articles.length === 0 && <p>No hay artículos</p>}
       {articles.length > 0 && articles.map((article, index) => (
         <article key={index} >
           <img src={article.urlToImage} alt="" />
@@ -46,4 +35,16 @@ export default function Home() {
 
     </PageLayout>
   )
+}
+
+export async function getServerSideProps() {
+  const response = await fetch('https://newsapi.org/v2/everything?q=tesla&from=2022-12-19&sortBy=publishedAt&apiKey=92b29c7264864016892c34a9fbebb01b')
+  const {articles} = await response.json()
+
+  return {
+    props: {
+      articles
+    }
+  }
+ 
 }
