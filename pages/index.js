@@ -25,7 +25,10 @@ export default function Home({articles}) {
       {articles.length === 0 && <p>No hay artículos</p>}
       {articles.length > 0 && articles.map((article, index) => (
         <article key={index} >
-          <img src={article.urlToImage} alt="" />
+          <img 
+            src={article.urlToImage} 
+            alt="" 
+          />
           <h2>{article.title}</h2>
           <p>{article.description}</p>
         </article>
@@ -37,8 +40,8 @@ export default function Home({articles}) {
   )
 }
 
-export async function getServerSideProps() {
-  const response = await fetch('https://newsapi.org/v2/everything?q=tesla&from=2022-12-19&sortBy=publishedAt&apiKey=92b29c7264864016892c34a9fbebb01b')
+export async function getStaticProps() {
+  const response = await fetch('https://newsapi.org/v2/everything?q=tesla&from=2023-01-01&sortBy=publishedAt&apiKey=92b29c7264864016892c34a9fbebb01b')
   const {articles} = await response.json()
 
   return {
@@ -48,3 +51,14 @@ export async function getServerSideProps() {
   }
  
 }
+// export async function getServerSideProps() {
+//   const response = await fetch('https://newsapi.org/v2/everything?q=tesla&from=2023-01-01&sortBy=publishedAt&apiKey=92b29c7264864016892c34a9fbebb01b')
+//   const {articles} = await response.json()
+
+//   return {
+//     props: {
+//       articles
+//     }
+//   }
+ 
+// }
